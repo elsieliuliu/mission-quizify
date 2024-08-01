@@ -28,6 +28,7 @@ class DocumentProcessor:
         1. Utilize the Streamlit file uploader widget to allow users to upload PDF files.
            Hint: Look into st.file_uploader() with the 'type' parameter set to 'pdf'.
         2. For each uploaded PDF file:
+
            a. Generate a unique identifier and append it to the original file name before saving it temporarily.
               This avoids name conflicts and maintains traceability of the file.
            b. Use Langchain's PyPDFLoader on the path of the temporary file to extract pages.
@@ -42,7 +43,7 @@ class DocumentProcessor:
         """
         
         # Step 1: Render a file uploader widget. Replace 'None' with the Streamlit file uploader code.
-        uploaded_files = st.file_uploader(
+        uploaded_files = st.file_uploader("Upload a PDF", type=["pdf"], accept_multiple_files=True
             #####################################
             # Allow only type `pdf`
             # Allow multiple PDFs for ingestion
@@ -66,10 +67,12 @@ class DocumentProcessor:
                 # Use PyPDFLoader here to load the PDF and extract pages.
                 # https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf#using-pypdf
                 # You will need to figure out how to use PyPDFLoader to process the temporary file.
+                pdf_loader = PyPDFLoader(temp_file_path)
+                pages = pdf_loader.load_and_split()
                 
                 # Step 3: Then, Add the extracted pages to the 'pages' list.
                 #####################################
-                
+                self.pages.extend(pages)
                 # Clean up by deleting the temporary file.
                 os.unlink(temp_file_path)
             
