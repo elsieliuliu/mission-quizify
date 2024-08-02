@@ -112,7 +112,7 @@ if __name__ == "__main__":
     
     embed_config = {
         "model_name": "textembedding-gecko@003",
-        "project": "mission-quizify",
+        "project": "my-gemini-quizzify",
         "location": "us-central1"
     }
     
